@@ -25,16 +25,40 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    fetch('/news.json')
+    // 优先尝试 API 路由，如果失败则回退到静态文件
+    fetch('/api/news')
+      .then(res => {
+        if (!res.ok) {
+          // 如果 API 失败，尝试静态文件
+          return fetch('/news.json')
+        }
+        return res
+      })
       .then(res => res.json())
       .then(data => {
-        setNews(data)
-        setFilteredNews(data)
+        if (Array.isArray(data)) {
+          setNews(data)
+          setFilteredNews(data)
+        } else {
+          console.error('Invalid data format:', data)
+          setNews([])
+          setFilteredNews([])
+        }
         setLoading(false)
       })
       .catch(err => {
         console.error('加载新闻失败:', err)
-        setLoading(false)
+        // 最后尝试静态文件
+        fetch('/news.json')
+          .then(res => res.json())
+          .then(data => {
+            setNews(data)
+            setFilteredNews(data)
+            setLoading(false)
+          })
+          .catch(() => {
+            setLoading(false)
+          })
       })
   }, [])
 

@@ -1,0 +1,19 @@
+[
+  {
+    "source": "Sky Sports",
+    "title": "Example News Title",
+    "title_cn": "示例新闻标题",
+    "link": "https://example.com",
+    "published": "2024-12-15T12:00:00",
+    "is_transfer": false
+  },
+  {
+    "source": "BBC Sport",
+    "title": "Transfer News Example",
+    "title_cn": "🚨 转会新闻示例",
+    "link": "https://example.com",
+    "published": "2024-12-15T11:00:00",
+    "is_transfer": true
+  }
+]
+

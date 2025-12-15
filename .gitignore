@@ -47,8 +47,8 @@ ENV/
 .venv
 
 # Python data files (keep structure but ignore large data)
+# Note: public/news.json is tracked for deployment, but football_news_translated.json is ignored
 football_news_translated.json
-public/news.json
 
 # Logs
 *.log

@@ -1,0 +1,43 @@
+name: Fetch Football News
+
+on:
+  schedule:
+    # 每30分钟运行一次 (UTC时间)
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  fetch-news:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Fetch news
+        env:
+          USE_FREE_TRANSLATOR: 'true'
+        run: |
+          python3 fetch_football_news.py
+      
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/news.json football_news_translated.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update news data [skip ci]"
+            git push
+          fi
+
