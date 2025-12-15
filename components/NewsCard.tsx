@@ -52,6 +52,10 @@ export default function NewsCard({ item }: NewsCardProps) {
 
   const isTwitter = item.source?.includes('Twitter')
   const displayTitle = item.title_cn || item.title
+  
+  // 安全获取数值，避免 undefined
+  const retweetCount = item.retweet_count ?? 0
+  const likeCount = item.like_count ?? 0
 
   return (
     <a
@@ -92,22 +96,22 @@ export default function NewsCard({ item }: NewsCardProps) {
           )}
 
           {/* Twitter 互动数据 */}
-          {isTwitter && ((item.retweet_count ?? 0) > 0 || (item.like_count ?? 0) > 0) && (
+          {isTwitter && (retweetCount > 0 || likeCount > 0) && (
             <div className="flex items-center gap-4 mt-4 pt-3 border-t border-dark-border/30">
-              {(item.retweet_count ?? 0) > 0 && (
+              {retweetCount > 0 && (
                 <span className="inline-flex items-center gap-1.5 text-xs text-dark-text-muted font-medium">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
                   </svg>
-                  <span>{item.retweet_count ?? 0}</span>
+                  <span>{retweetCount}</span>
                 </span>
               )}
-              {(item.like_count ?? 0) > 0 && (
+              {likeCount > 0 && (
                 <span className="inline-flex items-center gap-1.5 text-xs text-dark-text-muted font-medium">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                   </svg>
-                  <span>{item.like_count ?? 0}</span>
+                  <span>{likeCount}</span>
                 </span>
               )}
             </div>
