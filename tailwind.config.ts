@@ -21,7 +21,13 @@ const config: Config = {
             muted: '#6b6b6b',
           },
           accent: '#ff6b35',
+          orange: {
+            600: '#ea580c',
+          },
         },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.4s ease-out forwards',
       },
       fontFamily: {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],

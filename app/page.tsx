@@ -67,8 +67,15 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-dark-bg flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-dark-border border-t-dark-accent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-dark-text-secondary">加载中...</p>
+          <div className="relative w-16 h-16 mx-auto mb-6">
+            <div className="absolute inset-0 border-4 border-dark-border/30 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-transparent border-t-dark-accent rounded-full animate-spin"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-2xl">⚽</span>
+            </div>
+          </div>
+          <p className="text-dark-text-secondary font-medium">加载新闻中...</p>
+          <p className="text-dark-text-muted text-sm mt-2">请稍候</p>
         </div>
       </div>
     )
@@ -87,15 +94,32 @@ export default function Home() {
         
         <div className="mt-6">
           {filteredNews.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-dark-text-secondary text-lg">暂无新闻</p>
+            <div className="text-center py-16">
+              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-dark-surface/50 flex items-center justify-center border border-dark-border/30">
+                <span className="text-4xl">📰</span>
+              </div>
+              <p className="text-dark-text-secondary text-lg font-semibold mb-2">暂无新闻</p>
+              <p className="text-dark-text-muted text-sm">尝试调整搜索条件或过滤器</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {filteredNews.map((item, index) => (
-                <NewsCard key={`${item.link}-${index}`} item={item} />
-              ))}
-            </div>
+            <>
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm text-dark-text-secondary font-medium">
+                  共找到 <span className="text-dark-accent font-bold">{filteredNews.length}</span> 条新闻
+                </p>
+              </div>
+              <div className="space-y-3">
+                {filteredNews.map((item, index) => (
+                  <div
+                    key={`${item.link}-${index}`}
+                    className="animate-fade-in"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <NewsCard item={item} />
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </main>

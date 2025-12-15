@@ -58,51 +58,56 @@ export default function NewsCard({ item }: NewsCardProps) {
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="block bg-dark-card border border-dark-border rounded-lg p-4 hover:bg-dark-surface transition-all hover:border-dark-accent/50 group"
+      className="block bg-dark-card/50 backdrop-blur-sm border border-dark-border/50 rounded-xl p-5 hover:bg-dark-surface/50 hover:border-dark-accent/30 transition-all duration-300 group shadow-sm hover:shadow-xl hover:shadow-black/20"
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           {/* 来源和时间 */}
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span className="text-xs font-medium text-dark-text-secondary flex items-center gap-1">
-              <span>{getSourceIcon(item.source)}</span>
-              <span className="truncate">{item.source}</span>
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-dark-surface/50 rounded-lg text-xs font-semibold text-dark-text-secondary border border-dark-border/30">
+              <span className="text-sm">{getSourceIcon(item.source)}</span>
+              <span className="truncate max-w-[120px]">{item.source}</span>
             </span>
             {item.is_transfer && (
-              <span className="px-2 py-0.5 bg-dark-accent/20 text-dark-accent text-xs font-semibold rounded">
-                🚨 转会
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-dark-accent/20 to-orange-600/20 text-dark-accent text-xs font-bold rounded-lg border border-dark-accent/30">
+                <span>🚨</span>
+                <span>转会</span>
               </span>
             )}
-            <span className="text-xs text-dark-text-muted">
+            <span className="text-xs text-dark-text-muted font-medium px-2 py-1 bg-dark-surface/30 rounded-lg">
               {formatDate(item.published)}
             </span>
           </div>
 
           {/* 标题 */}
-          <h2 className="text-base font-semibold text-dark-text-primary leading-snug group-hover:text-dark-accent transition-colors">
+          <h2 className="text-lg font-bold text-dark-text-primary leading-tight group-hover:text-dark-accent transition-colors duration-200 mb-2">
             {displayTitle}
           </h2>
 
           {/* 原始英文标题（如果有中文翻译） */}
           {item.title_cn && item.title !== item.title_cn && (
-            <p className="text-sm text-dark-text-secondary mt-2">
+            <p className="text-sm text-dark-text-secondary/80 mt-2.5 leading-relaxed line-clamp-2">
               {item.title}
             </p>
           )}
 
           {/* Twitter 互动数据 */}
-          {isTwitter && (item.retweet_count || item.like_count) && (
-            <div className="flex items-center gap-4 mt-3 text-xs text-dark-text-muted">
-              {item.retweet_count > 0 && (
-                <span className="flex items-center gap-1">
-                  <span>🔄</span>
-                  <span>{item.retweet_count}</span>
+          {isTwitter && ((item.retweet_count ?? 0) > 0 || (item.like_count ?? 0) > 0) && (
+            <div className="flex items-center gap-4 mt-4 pt-3 border-t border-dark-border/30">
+              {(item.retweet_count ?? 0) > 0 && (
+                <span className="inline-flex items-center gap-1.5 text-xs text-dark-text-muted font-medium">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                  </svg>
+                  <span>{item.retweet_count ?? 0}</span>
                 </span>
               )}
-              {item.like_count > 0 && (
-                <span className="flex items-center gap-1">
-                  <span>❤️</span>
-                  <span>{item.like_count}</span>
+              {(item.like_count ?? 0) > 0 && (
+                <span className="inline-flex items-center gap-1.5 text-xs text-dark-text-muted font-medium">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                  </svg>
+                  <span>{item.like_count ?? 0}</span>
                 </span>
               )}
             </div>
@@ -110,7 +115,7 @@ export default function NewsCard({ item }: NewsCardProps) {
         </div>
 
         {/* 外部链接图标 */}
-        <div className="flex-shrink-0 text-dark-text-muted group-hover:text-dark-accent transition-colors">
+        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-dark-surface/50 border border-dark-border/30 flex items-center justify-center text-dark-text-muted group-hover:text-dark-accent group-hover:bg-dark-accent/10 group-hover:border-dark-accent/30 transition-all duration-200">
           <svg
             className="w-5 h-5"
             fill="none"
